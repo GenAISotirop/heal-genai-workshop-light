@@ -228,6 +228,7 @@
       <li><a href="instructor.html">Για Διδάσκοντες</a></li>
       <li><a href="materials.html">Υλικό</a></li>
       <li><a href="about.html">Σχετικά</a></li>
+      <li><a href="leapspace.html">LeapSpace</a></li>
     </ul>
   </div>
 </nav>
@@ -294,7 +295,7 @@
             </div>
             <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: var(--space-2);">Το LLM που θα χρησιμοποιήσουμε για prompting.</p>
             <ol>
-              <li>Πήγαινε <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a></li>
+              <li>Πάνε <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a></li>
               <li>Sign up με ακαδημαϊκό email</li>
               <li>Επιβεβαίωσε email</li>
             </ol>
@@ -307,7 +308,7 @@
             </div>
             <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: var(--space-2);">Για peer-reviewed paper search μέσω ΤΝ.</p>
             <ol>
-              <li>Πήγαινε <a href="https://consensus.app" target="_blank" rel="noopener">consensus.app</a></li>
+              <li>Πάνε <a href="https://consensus.app" target="_blank" rel="noopener">consensus.app</a></li>
               <li>Sign up με ίδιο email</li>
               <li>Στο Claude → Settings → Connectors → Connect Consensus</li>
             </ol>
@@ -320,7 +321,7 @@
             </div>
             <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: var(--space-2);">Για συστηματικό screening βιβλιογραφίας.</p>
             <ol>
-              <li>Πήγαινε <a href="https://rayyan.ai" target="_blank" rel="noopener">rayyan.ai</a></li>
+              <li>Πάνε <a href="https://rayyan.ai" target="_blank" rel="noopener">rayyan.ai</a></li>
               <li>Sign up — δωρεάν</li>
               <li>Επιβεβαίωσε email</li>
             </ol>
@@ -344,7 +345,7 @@
           <div class="callout-icon">!</div>
           <div class="callout-text">
             <strong>Έλεγξε τη σύνδεση Claude ↔ Consensus</strong>
-            Στο Claude γράψε: <code>"Ψάξε στο Consensus για mindfulness"</code> — αν επιστρέψει αποτελέσματα, είσαι έτοιμος/η. Αν όχι, σημείωσέ το και θα το λύσουμε στο μάθημα.
+            Στο Claude γράψε: <code id="test-prompt" style="background: var(--paper-card); padding: 0.3rem 0.6rem; border-radius: var(--r-sm); border: 2px solid var(--ink); font-size: 0.95rem;">"Ψάξε στο Consensus για mindfulness"</code> <button onclick="copyText()" style="display: inline-flex; align-items: center; gap: 4px; padding: 0.25rem 0.7rem; font-family: var(--font-body); font-size: 0.7rem; font-weight: 700; background: var(--ink); color: white; border: 2px solid var(--ink); border-radius: var(--r-full); cursor: pointer; vertical-align: middle; margin-left: 4px;" onmouseover="this.style.background='var(--coral)';this.style.borderColor='var(--coral)'" onmouseout="this.style.background='var(--ink)';this.style.borderColor='var(--ink)'">Copy</button> — αν επιστρέψει αποτελέσματα, είσαι έτοιμος/η. Αν όχι, σημείωσέ το και θα το λύσουμε στο μάθημα.
           </div>
         </div>
       </div>
@@ -480,7 +481,7 @@
     </div>
 
     <div class="final-card">
-      <h3>Τα <span class="hand">λέμε</span> στο εργαστήριο!</h3>
+      <h3>Τα <span class="hand">τα λέμε</span> στο εργαστήριο!</h3>
       <p>Αν έχεις απορία με την προετοιμασία, στείλε email στον/στη διδάσκοντα/ουσα πριν την ημέρα.</p>
       <a href="agenda.html" class="btn">
         Δες τι θα κάνουμε <span class="arrow">→</span>
@@ -506,7 +507,7 @@
       </div>
 
       <div class="faq-item">
-        <h4>Έχω χρησιμοποιήσει ChatGPT στο παρελθόν. Είναι το ίδιο πράγμα;</h4>
+        <h4>Έχω χρησιμοποιήσει ΧατGPT στο παρελθόν. Είναι το ίδιο πράγμα;</h4>
         <p>Παρόμοιο, όχι όμως ταυτόσημο. Το Claude είναι από διαφορετική εταιρεία (Anthropic) και έχει διαφορετική συμπεριφορά. Στο εργαστήριο θα δεις γιατί χρησιμοποιούμε Claude — έχει καλή ενσωμάτωση με Consensus.</p>
       </div>
 
@@ -564,6 +565,25 @@
     </div>
   </div>
 </footer>
+
+<script>
+function copyText() {
+  var text = document.getElementById('test-prompt').textContent;
+  // Remove the surrounding quotes for a clean copy
+  text = text.replace(/^[""]|[""]$/g, '').trim();
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = event.target;
+    btn.textContent = '✓ Copied!';
+    btn.style.background = 'var(--sage)';
+    btn.style.borderColor = 'var(--sage)';
+    setTimeout(function() {
+      btn.textContent = 'Copy';
+      btn.style.background = 'var(--ink)';
+      btn.style.borderColor = 'var(--ink)';
+    }, 2000);
+  });
+}
+</script>
 
 </body>
 </html>
