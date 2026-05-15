@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Για Διδάσκοντες · Από το Prompt στη Δήλωση</title>
+  <meta name="description" content="Πλήρης οδηγός διδασκαλίας για το τρίωρο εργαστήριο GenAI — teaching tips, watch-fors, και διαχείριση χρόνου.">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    .philosophy {
+      background: var(--paper-card);
+      border: 3px solid var(--ink);
+      border-radius: var(--r-lg);
+      padding: var(--space-5);
+      box-shadow: 6px 6px 0 var(--coral);
+      margin: var(--space-5) 0;
+    }
+    .philosophy h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      margin-bottom: var(--space-3);
+    }
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+    @media (min-width: 700px) {
+      .philosophy-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .philosophy-item {
+      padding: var(--space-3);
+      background: var(--paper-warm);
+      border-radius: var(--r-md);
+      border-left: 4px solid var(--coral);
+    }
+    .philosophy-item:nth-child(2) { border-left-color: var(--teal); }
+    .philosophy-item:nth-child(3) { border-left-color: var(--sage); }
+    .philosophy-item h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: var(--space-2);
+    }
+    .philosophy-item p {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .tip-card {
+      background: var(--paper-card);
+      border: 2px solid var(--rule);
+      border-radius: var(--r-md);
+      padding: var(--space-4);
+      margin-bottom: var(--space-3);
+      transition: all 0.2s;
+    }
+    .tip-card:hover {
+      border-color: var(--coral);
+      transform: translateY(-2px);
+    }
+    .tip-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+    .tip-badge {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--r-full);
+    }
+    .badge-tip { background: var(--teal-bg); color: var(--teal); }
+    .badge-watch { background: var(--sun-bg); color: var(--ink); }
+    .badge-critical { background: var(--coral-bg); color: var(--coral); }
+    .badge-time { background: var(--sage-bg); color: var(--sage); }
+
+    .tip-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      flex: 1;
+    }
+    .tip-body {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+    }
+
+    .module-card {
+      background: var(--paper-card);
+      border: 3px solid var(--ink);
+      border-radius: var(--r-lg);
+      padding: var(--space-5);
+      margin-bottom: var(--space-5);
+    }
+    .module-card:nth-of-type(1) { box-shadow: 6px 6px 0 var(--coral); }
+    .module-card:nth-of-type(2) { box-shadow: 6px 6px 0 var(--teal); }
+    .module-card:nth-of-type(3) { box-shadow: 6px 6px 0 var(--sun); }
+    .module-card:nth-of-type(4) { box-shadow: 6px 6px 0 var(--sage); }
+    .module-card:nth-of-type(5) { box-shadow: 6px 6px 0 var(--plum); }
+
+    .module-card-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 2px dashed var(--rule);
+    }
+    .module-card-num {
+      width: 3rem; height: 3rem;
+      border-radius: var(--r-full);
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: white;
+      border: 3px solid var(--ink);
+      flex-shrink: 0;
+    }
+    .module-card:nth-of-type(1) .module-card-num { background: var(--coral); }
+    .module-card:nth-of-type(2) .module-card-num { background: var(--teal); }
+    .module-card:nth-of-type(3) .module-card-num { background: var(--sun); color: var(--ink); }
+    .module-card:nth-of-type(4) .module-card-num { background: var(--sage); }
+    .module-card:nth-of-type(5) .module-card-num { background: var(--plum); }
+
+    .module-card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .module-card-time {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .module-card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      line-height: 1.1;
+    }
+
+    .materials-needed {
+      background: var(--paper-warm);
+      border: 2px dashed var(--ink-soft);
+      border-radius: var(--r-md);
+      padding: var(--space-3);
+      margin: var(--space-3) 0;
+    }
+    .materials-needed h5 {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-2);
+    }
+    .materials-needed ul {
+      list-style: none;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+    .materials-needed li {
+      padding-left: var(--space-3);
+      position: relative;
+      margin-bottom: 4px;
+    }
+    .materials-needed li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--coral);
+    }
+
+    .checklist-pro {
+      background: var(--paper-card);
+      border: 3px solid var(--ink);
+      border-radius: var(--r-lg);
+      padding: var(--space-5);
+      box-shadow: 6px 6px 0 var(--sun);
+      margin: var(--space-5) 0;
+    }
+    .checklist-pro h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      margin-bottom: var(--space-3);
+    }
+    .checklist-pro ul {
+      list-style: none;
+      padding: 0;
+    }
+    .checklist-pro li {
+      display: flex;
+      gap: var(--space-3);
+      padding: var(--space-2) 0;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .checklist-pro li:last-child { border-bottom: none; }
+    .checklist-pro .check {
+      flex-shrink: 0;
+      width: 1.5rem; height: 1.5rem;
+      border-radius: var(--r-sm);
+      border: 2px solid var(--ink);
+      background: white;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <span class="spark">Από</span> το Prompt στη Δήλωση
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Καλωσόρισμα</a></li>
+      <li><a href="prepare.html">Προετοιμασία</a></li>
+      <li><a href="agenda.html">Πρόγραμμα</a></li>
+      <li><a href="instructor.html" class="active">Για Διδάσκοντες</a></li>
+      <li><a href="materials.html">Υλικό</a></li>
+      <li><a href="about.html">Σχετικά</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="eyebrow fade-up">✷ Οδηγός διδασκαλίας · Lesson Plan</div>
+        <h1 class="hero-title fade-up">
+          Οδηγός για<br>
+          <span class="hand">διδάσκοντες</span>
+        </h1>
+        <p class="hero-subtitle fade-up">
+          Όλα όσα χρειάζεσαι για να τρέξεις το εργαστήριο: φιλοσοφία, αναλυτικός χρόνος ανά ενότητα, teaching tips, και «watch-fors» από πραγματική εμπειρία διδασκαλίας.
+        </p>
+        <div class="cta-group fade-up">
+          <a href="materials.html" class="btn">
+            Όλο το υλικό <span class="arrow">→</span>
+          </a>
+          <a href="#philosophy" class="btn btn-outline">
+            Ξεκίνα από τη φιλοσοφία
+          </a>
+        </div>
+      </div>
+      <div class="hero-illo">
+        <div class="hero-shape shape-1" style="background: var(--coral);"></div>
+        <div class="hero-shape shape-2" style="background: var(--sage); bottom: 5%; left: 25%;"></div>
+        <div class="hero-shape shape-3" style="background: var(--sun); top: 20%; left: 10%;"></div>
+        <div class="hero-label">
+          Teach<br>
+          <span>with care ✦</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="philosophy">
+  <div class="container">
+    <div class="section-eyebrow">✷ Διδακτική φιλοσοφία</div>
+    <h2 class="section-title">Τρεις <span class="accent">αρχές</span> διδασκαλίας</h2>
+    <p class="section-lead">
+      Πριν ξεκινήσεις, μοιράσου αυτές τις αρχές με τους φοιτητές σου — είναι η ψυχή του εργαστηρίου.
+    </p>
+
+    <div class="philosophy">
+      <div class="philosophy-grid">
+        <div class="philosophy-item">
+          <h4>Co-pilot, όχι autopilot</h4>
+          <p>Η ΤΝ είναι συν-στοχαστής, όχι αντικαταστάτης. Ο φοιτητής διατηρεί τον έλεγχο.</p>
+        </div>
+        <div class="philosophy-item">
+          <h4>Verify, don't trust</h4>
+          <p>Κάθε αποτέλεσμα ΤΝ ελέγχεται. Η ψευδαίσθηση αναφορών είναι το πιο συχνό λάθος.</p>
+        </div>
+        <div class="philosophy-item">
+          <h4>Διαφάνεια</h4>
+          <p>Κάθε ουσιαστική χρήση δηλώνεται. Η διαφάνεια προστατεύει — δεν περιορίζει.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="glance">
+  <div class="container">
+    <div class="section-eyebrow">✷ Πριν την ημέρα</div>
+    <h2 class="section-title">Tech Setup <span class="hand">checklist</span></h2>
+
+    <div class="checklist-pro" style="max-width: 42rem; margin: var(--space-5) auto;">
+      <h3>Στο γραφείο σου, μία ημέρα πριν</h3>
+      <ul>
+        <li>
+          <span class="check"></span>
+          <div><strong>Δικό σου laptop</strong> με Claude + Consensus connector ενεργό</div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div><strong>Backup Wi-Fi</strong> (hotspot από κινητό αν πέσει το ιδρυματικό)</div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div><strong>Sample Rayyan project</strong> έτοιμο (20-30 abstracts για demo)</div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div><strong>Sample RIS file</strong> έτοιμο (για να δώσεις στους φοιτητές)</div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div><strong>Εκτυπωμένα:</strong> AI Usage Agreement (× N φοιτητές), HEAL-Link Statement (× N), Bad Prompts cards, Σενάρια καρτέλες</div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div><strong>1 abstract</strong> για τις PICO + Critical Reading ασκήσεις (σχετικό με το πεδίο των φοιτητών)</div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div><strong>5 σενάρια "Πού τραβάμε τη γραμμή;"</strong> ή σε slides ή σε καρτέλες</div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div><strong>Στείλε pre-workshop email</strong> 5-7 ημέρες πριν, με συνημμένο το AI Usage Agreement</div>
+        </li>
+      </ul>
+    </div>
+
+    <p style="text-align: center; color: var(--muted); font-size: 0.95rem;">
+      💡 Όλα τα παραπάνω υλικά τα βρίσκεις στη σελίδα <a href="materials.html">Υλικό</a>.
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-eyebrow">✷ Διδασκαλία ενότητας-ενότητας</div>
+    <h2 class="section-title">Πέντε <span class="accent">ενότητες</span> · Tips &amp; watch-fors</h2>
+    <p class="section-lead">
+      Για κάθε ενότητα: τι να εστιάσεις, ποια λάθη να αναμένεις από τους φοιτητές, και πώς να διαχειριστείς τον χρόνο.
+    </p>
+
+    <!-- MODULE 1 -->
+    <div class="module-card">
+      <div class="module-card-header">
+        <div class="module-card-num">i</div>
+        <div class="module-card-meta">
+          <span class="module-card-time">0:00 — 0:35 · 35 λεπτά</span>
+          <h3 class="module-card-title">Ηθική + HEAL-Link + Σενάρια</h3>
+        </div>
+      </div>
+
+      <div class="materials-needed">
+        <h5>Υλικά που χρειάζεσαι</h5>
+        <ul>
+          <li>Slides με 3 αρχές HEAL-Link + πίνακας 4+4 χρήσεων</li>
+          <li>5 σενάρια "Πού τραβάμε τη γραμμή;" (καρτέλες ή slides)</li>
+          <li>AI Usage Agreement εκτυπωμένο × N φοιτητές</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-critical">Κρίσιμο</span>
+          <h4 class="tip-title">Αφιέρωσε χρόνο στη συζήτηση σεναρίων</h4>
+        </div>
+        <p class="tip-body">
+          Το Σενάριο 3 («εναλλακτικές διατυπώσεις») είναι το πιο γκρίζο. Άσε 3-4 λεπτά μόνο γι' αυτό. Δείξε ότι η διάκριση «επιμέλεια» vs «αλλαγή νοήματος» δεν είναι πάντα προφανής — γι' αυτό υπάρχουν οι αρχές.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-watch">Watch For</span>
+          <h4 class="tip-title">Φοιτητές που λένε «έχω ήδη χρησιμοποιήσει ΤΝ έτσι»</h4>
+        </div>
+        <p class="tip-body">
+          Μη τους ντροπιάσεις. Αναγνώρισέ το ως φυσικό σημείο εκκίνησης. Πες: «Αυτό που μαθαίνουμε σήμερα είναι πώς να το κάνετε σωστά από εδώ και πέρα.» Το βίωμά τους είναι διδακτική ευκαιρία.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-tip">Tip</span>
+          <h4 class="tip-title">Συγκεντρώνεις τα Agreements στη μέση της ενότητας</h4>
+        </div>
+        <p class="tip-body">
+          Όχι στην αρχή (διασπά την προσοχή) ούτε στο τέλος (ξεχνιέται). Στα τελευταία 5 λεπτά, μαζεύεις τις υπογραφές ενώ συζητάς. Διπλό κέρδος.
+        </p>
+      </div>
+    </div>
+
+    <!-- MODULE 2 -->
+    <div class="module-card">
+      <div class="module-card-header">
+        <div class="module-card-num">ii</div>
+        <div class="module-card-meta">
+          <span class="module-card-time">0:35 — 1:20 · 45 λεπτά</span>
+          <h3 class="module-card-title">Prompt Engineering</h3>
+        </div>
+      </div>
+
+      <div class="materials-needed">
+        <h5>Υλικά που χρειάζεσαι</h5>
+        <ul>
+          <li>Slides: δομή prompt (6 στοιχεία) + Human-in-the-loop</li>
+          <li>Bad Prompts Cards (3 ανά ζευγάρι)</li>
+          <li>Δικό σου laptop με Claude έτοιμο για live demo</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-critical">Κρίσιμο</span>
+          <h4 class="tip-title">Δείξε ChatGPT vs Claude live</h4>
+        </div>
+        <p class="tip-body">
+          Με το ΙΔΙΟ prompt — διαφορετικά outputs. Δείχνει ότι «η ΤΝ» δεν είναι ενιαία οντότητα. Αυτό αλλάζει το framing του φοιτητή — από «η ΤΝ είναι μαγική» σε «η ΤΝ είναι εργαλεία που πρέπει να επιλέξω σωστά».
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-watch">Watch For</span>
+          <h4 class="tip-title">«Καλά» prompts που είναι ακόμα πολύ ευρή</h4>
+        </div>
+        <p class="tip-body">
+          Πρωτοετείς γράφουν π.χ. «πες μου για δυσλεξία σε παιδιά» — καλύτερο, αλλά χωρίς ΡΟΛΟ και χωρίς ΠΕΡΙΟΡΙΣΜΟΥΣ. Σταμάτησε και σχολίασε: «λείπει ο ρόλος και τα όρια.»
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-time">Διαχείριση</span>
+          <h4 class="tip-title">Άσκηση 2: αυστηρά 15 λεπτά</h4>
+        </div>
+        <p class="tip-body">
+          5' σε ζευγάρι (rewrite 3 prompts) + 5' live test (1 prompt στο Claude) + 5' ατομικά (2 prompts για δικό τους θέμα). Αν χρειαστεί, κόψε από το live test — διατήρησε τα ατομικά.
+        </p>
+      </div>
+    </div>
+
+    <!-- MODULE 3 -->
+    <div class="module-card">
+      <div class="module-card-header">
+        <div class="module-card-num">iii</div>
+        <div class="module-card-meta">
+          <span class="module-card-time">1:35 — 2:35 · 60 λεπτά</span>
+          <h3 class="module-card-title">Research Mini-Tour</h3>
+        </div>
+      </div>
+
+      <div class="materials-needed">
+        <h5>Υλικά που χρειάζεσαι</h5>
+        <ul>
+          <li>1 sample abstract (για PICO + Critical Reading άσκηση)</li>
+          <li>Slides: PICO δομή + DOI Verification 4 βήματα</li>
+          <li>Sample Rayyan project + sample RIS file</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-critical">Κρίσιμο</span>
+          <h4 class="tip-title">Στο DOI demo, σκόπιμα δοκίμασε όλα</h4>
+        </div>
+        <p class="tip-body">
+          Όταν δείχνεις Consensus, ελέγξτε ΟΛΑ τα DOIs μπροστά στους φοιτητές. Αν τύχει κάποιο να μην επαληθεύεται, αυτό είναι ΧΡΥΣΟΣ διδακτική στιγμή. Αν όλα επαληθεύονται, πες «σήμερα τυχερά — αλλά πάντα ελέγχουμε.»
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-watch">Watch For</span>
+          <h4 class="tip-title">Φοιτητές μπερδεύονται με το format του DOI</h4>
+        </div>
+        <p class="tip-body">
+          Μερικοί αντιγράφουν λάθος, ή προσπαθούν να ανοίξουν το PDF αντί για τη σελίδα. Δείξε ξανά αν χρειαστεί. Επίσης μερικοί θα γράψουν «verified» χωρίς να έχουν κάνει το check — περπάτησε στην τάξη και έλεγξε δειγματοληπτικά.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-critical">Κρίσιμο</span>
+          <h4 class="tip-title">Στο Rayyan: ΚΑΝΕΝΑ Claude tab ανοιχτό</h4>
+        </div>
+        <p class="tip-body">
+          Πες ρητά πριν ξεκινήσετε: «Όλα τα tabs Claude/ChatGPT/Consensus ΚΛΕΙΣΤΑ τώρα. Αυτή είναι ανθρώπινη κρίση.» Αν δεις κάποιον να ξεχάσει, σταμάτησέ τον — όχι με ντροπιαστικό τρόπο, αλλά ως υπενθύμιση κανόνα.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-time">Διαχείριση</span>
+          <h4 class="tip-title">Αν τρέξεις χρόνο, κόψε από Rayyan</h4>
+        </div>
+        <p class="tip-body">
+          Από τα 4 sub-modules του Research Mini-Tour, το Rayyan είναι αυτό που μπορεί να συντμηθεί. Κράτα 10' demo αντί για 20' demo+practice. Τα άλλα 3 (PICO, Critical Reading, DOI) είναι foundational.
+        </p>
+      </div>
+    </div>
+
+    <!-- MODULE 4 -->
+    <div class="module-card">
+      <div class="module-card-header">
+        <div class="module-card-num">iv</div>
+        <div class="module-card-meta">
+          <span class="module-card-time">2:35 — 2:55 · 20 λεπτά</span>
+          <h3 class="module-card-title">Documentation &amp; Δήλωση</h3>
+        </div>
+      </div>
+
+      <div class="materials-needed">
+        <h5>Υλικά που χρειάζεσαι</h5>
+        <ul>
+          <li>HEAL-Link Statement Template εκτυπωμένο × N</li>
+          <li>Slide: παράδειγμα μεθοδολογικής παραγράφου</li>
+          <li>Slide: παράδειγμα συμπληρωμένου AI Usage Log</li>
+        </ul>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-critical">Κρίσιμο</span>
+          <h4 class="tip-title">Η Δήλωση είναι ΤΟ πιο σημαντικό deliverable</h4>
+        </div>
+        <p class="tip-body">
+          Αυτή είναι η στιγμή που ο φοιτητής γίνεται έτοιμος να γράψει τη διπλωματική του σωστά. Αφιέρωσε χρόνο. Αν χρειαστεί κόψε από οπουδήποτε αλλού — αλλά μη συμπιέσεις αυτή την ενότητα.
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-tip">Tip</span>
+          <h4 class="tip-title">Δείξε ένα συμπληρωμένο παράδειγμα</h4>
+        </div>
+        <p class="tip-body">
+          Πριν τους αφήσεις να συμπληρώσουν τη δική τους, δείξε σε slide ένα δικό σου συμπληρωμένο HEAL-Link Statement από προηγούμενη εργασία (ή φτιαχτό). Αλλιώς θα κολλήσουν στο "τι γράφω στο πεδίο Σκοπός".
+        </p>
+      </div>
+    </div>
+
+    <!-- MODULE 5 -->
+    <div class="module-card">
+      <div class="module-card-header">
+        <div class="module-card-num">v</div>
+        <div class="module-card-meta">
+          <span class="module-card-time">2:55 — 3:00 · 5 λεπτά</span>
+          <h3 class="module-card-title">Κλείσιμο · AI Detection</h3>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-tip">Tip</span>
+          <h4 class="tip-title">Σύνδεσε AI Detection με Διαφάνεια</h4>
+        </div>
+        <p class="tip-body">
+          Πες: «Αυτό που μόλις κάνατε (συμπληρώσατε Δήλωση) είναι ακριβώς η πρακτική που σας απαλλάσσει από τον φόβο των detection tools. Όταν δηλώνετε σωστά, δεν χρειάζεται να φοβάστε τίποτα.»
+        </p>
+      </div>
+
+      <div class="tip-card">
+        <div class="tip-header">
+          <span class="tip-badge badge-tip">Tip</span>
+          <h4 class="tip-title">Reflection homework: στείλε το ίδιο βράδυ</h4>
+        </div>
+        <p class="tip-body">
+          Μέσω email/e-class, στείλε στους φοιτητές: (α) το Reflection Template, (β) όλα τα prompt templates που χρησιμοποιήσαμε, (γ) τα Methodological Paragraph Examples. Όσο πιο νωρίς, τόσο μεγαλύτερη συμμετοχή στο reflection.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="glance">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-eyebrow" style="display: inline-block;">✷ Συχνά Προβλήματα</div>
+      <h2 class="section-title" style="margin: 0 auto var(--space-5);">
+        Τι να <span class="hand">περιμένεις</span>;
+      </h2>
+    </div>
+
+    <div class="learn-grid" style="max-width: 48rem; margin: 0 auto;">
+      <div class="learn-item">
+        <div class="learn-marker">!</div>
+        <div class="learn-content">
+          <h4>Τεχνικά προβλήματα στην έναρξη</h4>
+          <p>Φοιτητής δεν έχει κάνει pre-work setup. Λύση: ζευγάρωσέ τον με κάποιον που έχει — λύνει στα πρώτα 15' χωρίς να χάσει διδακτική.</p>
+        </div>
+      </div>
+      <div class="learn-item">
+        <div class="learn-marker">!</div>
+        <div class="learn-content">
+          <h4>«Το Claude μου είπε ότι...»</h4>
+          <p>Φοιτητής αναφέρει κάτι ως «γεγονός» γιατί το είπε το Claude. Σταμάτησε και ρώτησε: «Πού το επαλήθευσες; Από ποιο paper;» — χρυσή διδακτική στιγμή.</p>
+        </div>
+      </div>
+      <div class="learn-item">
+        <div class="learn-marker">!</div>
+        <div class="learn-content">
+          <h4>«Δεν τα κατάφερα να συνδέσω Consensus»</h4>
+          <p>Δείξε εναλλακτικό τρόπο: χρήση Consensus αυτόνομα (consensus.app) + manual copy των αποτελεσμάτων. Λειτουργεί το ίδιο — απλά πιο αργά.</p>
+        </div>
+      </div>
+      <div class="learn-item">
+        <div class="learn-marker">!</div>
+        <div class="learn-content">
+          <h4>Άγχος για AI ή υπερενθουσιασμός</h4>
+          <p>Και τα δύο είναι έγκυρες θέσεις. Δώσε χώρο και στις δύο φωνές. Το εργαστήριο δουλεύει για όλο το φάσμα.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="text-center" style="max-width: 36rem; margin: 0 auto;">
+      <div class="section-eyebrow" style="display: inline-block;">✷ Τελικό μήνυμα</div>
+      <h2 class="section-title" style="margin: 0 auto var(--space-4);">
+        Διδάσκεις <span class="hand">περισσότερα</span> από όσα νομίζεις
+      </h2>
+      <p style="font-size: 1.1rem; color: var(--ink-soft); line-height: 1.6;">
+        Δεν διδάσκεις απλώς «πώς να χρησιμοποιείς ΤΝ». Διδάσκεις <strong>επιστημονική ηθική</strong> σε μια εποχή που χρειάζεται περισσότερο από ποτέ. Κάθε φοιτητής που φεύγει με αυτό το framing είναι πιο έτοιμος για τη διπλωματική του — και για την επιστημονική του ζωή γενικότερα.
+      </p>
+      <div style="margin-top: var(--space-5);">
+        <a href="materials.html" class="btn">
+          Δες όλα τα materials <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="hand">Από</span> το Prompt στη Δήλωση
+        </div>
+        <p class="footer-text">
+          Εργαστήριο εισαγωγής στην υπεύθυνη χρήση εργαλείων GenAI για μεταπτυχιακούς φοιτητές. Σύμφωνα με τις κατευθυντήριες του Συνδέσμου Ελληνικών Ακαδημαϊκών Βιβλιοθηκών (HEAL-Link / ΣΕΑΒ).
+        </p>
+      </div>
+      <div>
+        <h5>Σελίδες</h5>
+        <ul>
+          <li><a href="prepare.html">Προετοιμασία</a></li>
+          <li><a href="agenda.html">Πρόγραμμα</a></li>
+          <li><a href="instructor.html">Για Διδάσκοντες</a></li>
+          <li><a href="materials.html">Υλικό</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Εργαλεία</h5>
+        <ul>
+          <li><a href="https://www.heal-link.gr/" target="_blank" rel="noopener">HEAL-Link.gr</a></li>
+          <li><a href="https://consensus.app" target="_blank" rel="noopener">Consensus</a></li>
+          <li><a href="https://rayyan.ai" target="_blank" rel="noopener">Rayyan</a></li>
+          <li><a href="https://claude.ai" target="_blank" rel="noopener">Claude</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 · Ανοιχτό εκπαιδευτικό υλικό · CC BY-NC-SA</div>
+      <div>Light Edition · v1.0</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
