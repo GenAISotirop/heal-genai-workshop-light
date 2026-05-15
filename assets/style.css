@@ -799,3 +799,179 @@ section { padding: var(--space-7) 0; }
   body::before { display: none; }
   body { background: white; }
 }
+
+/* ─── PASSWORD GATE ─────────────────────────────────────── */
+#password-gate {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  overflow-y: auto;
+}
+
+#password-gate::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 25%, var(--coral-soft) 0%, transparent 2%),
+    radial-gradient(circle at 80% 30%, var(--sun-soft) 0%, transparent 2.5%),
+    radial-gradient(circle at 25% 75%, var(--teal-soft) 0%, transparent 2%),
+    radial-gradient(circle at 75% 80%, var(--sage-soft) 0%, transparent 2%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.gate-card {
+  background: var(--paper-card);
+  border: 3px solid var(--ink);
+  border-radius: var(--r-lg);
+  padding: var(--space-6);
+  box-shadow: 8px 8px 0 var(--coral);
+  max-width: 32rem;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.gate-icon {
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto var(--space-4);
+  background: var(--sun);
+  border: 3px solid var(--ink);
+  border-radius: var(--r-full);
+  display: grid;
+  place-items: center;
+  font-size: 2rem;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+
+.gate-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  margin-bottom: var(--space-4);
+  line-height: 1.15;
+}
+
+.gate-title .hand {
+  font-family: var(--font-hand);
+  color: var(--coral);
+  font-size: 1.1em;
+}
+
+.gate-msg {
+  font-size: 1rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: var(--space-3);
+}
+
+.gate-msg strong {
+  color: var(--coral);
+  font-weight: 700;
+}
+
+.gate-msg em {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.gate-form {
+  margin-top: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.gate-input {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.85rem 1.25rem;
+  border: 3px solid var(--ink);
+  border-radius: var(--r-full);
+  outline: none;
+  text-align: center;
+  background: var(--paper-warm);
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.gate-input:focus {
+  background: var(--paper-card);
+  box-shadow: 0 0 0 4px var(--sun-bg);
+}
+
+.gate-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.85rem 1.75rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  background: var(--coral);
+  color: white;
+  border: 3px solid var(--ink);
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.gate-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.gate-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.gate-error {
+  display: none;
+  color: var(--coral);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: var(--space-2);
+  padding: 0.5rem;
+  background: var(--coral-bg);
+  border-radius: var(--r-md);
+  border: 2px dashed var(--coral);
+}
+
+.gate-error.show {
+  display: block;
+  animation: shake 0.4s;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+.gate-back {
+  display: inline-block;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: var(--space-4);
+  background: none;
+  border-bottom: 1px dashed var(--muted);
+}
+
+.gate-back:hover {
+  color: var(--coral);
+  border-bottom-color: var(--coral);
+  background: none;
+}
+
+body.gate-locked { overflow: hidden; }
