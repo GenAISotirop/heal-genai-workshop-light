@@ -355,7 +355,7 @@ section { padding: var(--space-7) 0; }
 .hero-label span {
   display: block;
   font-size: 0.5em;
-  color: var(--coral);
+  color: var(--plum);
   margin-top: 0.2em;
 }
 
