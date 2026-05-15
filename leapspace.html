@@ -48,6 +48,7 @@
       margin-bottom: var(--space-3);
     }
     .prompt-box {
+      position: relative;
       background: var(--paper-warm);
       border: 2px dashed var(--ink-soft);
       border-radius: var(--r-md);
@@ -173,6 +174,7 @@
       <li><a href="instructor.html">Για Διδάσκοντες</a></li>
       <li><a href="materials.html">Υλικό</a></li>
       <li><a href="about.html">Σχετικά</a></li>
+      <li><a href="leapspace.html" class="active">LeapSpace</a></li>
     </ul>
   </div>
 </nav>
@@ -344,7 +346,7 @@
           <h3 class="prompt-title">Literature Mapping</h3>
         </div>
         <div class="prompt-purpose">Για αρχικό scoping — εντοπίζεις θεματικές κατευθύνσεις στο πεδίο σου.</div>
-        <div class="prompt-box">Map the research landscape on [topic] from the last 5 years. Show:
+        <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Map the research landscape on [topic] from the last 5 years. Show:
 - 3-4 main research streams
 - Key authors per stream
 - 5 most cited papers (with DOIs)
@@ -359,7 +361,7 @@ Do NOT synthesize findings or draw conclusions. Just describe what research exis
           <h3 class="prompt-title">Cross-Disciplinary Insights</h3>
         </div>
         <div class="prompt-purpose">Για να βρεις ιδέες από συγγενή πεδία — χρήσιμο όταν η βιβλιογραφία στο δικό σου πεδίο είναι περιορισμένη.</div>
-        <div class="prompt-box">I'm researching [your topic] in the field of [your field]. Show me adjacent fields where similar approaches are studied — and identify:
+        <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>I'm researching [your topic] in the field of [your field]. Show me adjacent fields where similar approaches are studied — and identify:
 - 3 transferable methodologies
 - 5 papers from adjacent fields (with DOIs)
 - Specific evidence connecting these fields
@@ -374,7 +376,7 @@ Show Trust Cards. Do NOT recommend which approach is best.</div>
           <h3 class="prompt-title">Methodology Comparison</h3>
         </div>
         <div class="prompt-purpose">Για να καταλάβεις πώς συγκρίνονται διαφορετικές μεθοδολογικές προσεγγίσεις στο θέμα σου.</div>
-        <div class="prompt-box">In studies on [topic], compare these methodologies:
+        <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>In studies on [topic], compare these methodologies:
 - [Method A, e.g., RCT]
 - [Method B, e.g., Single-case design]
 - [Method C, e.g., Qualitative case study]
@@ -394,7 +396,7 @@ Do NOT recommend which methodology I should use.</div>
           <h3 class="prompt-title">Recent Advances</h3>
         </div>
         <div class="prompt-purpose">Για να βρεις τι έχει αλλάξει στο πεδίο σου τα τελευταία 2 χρόνια.</div>
-        <div class="prompt-box">What are the most significant new developments in [topic] from 2024-2026? Show:
+        <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>What are the most significant new developments in [topic] from 2024-2026? Show:
 - 5 high-impact recent papers (with DOIs)
 - New theoretical frameworks (if any)
 - Emerging methodological trends
@@ -410,7 +412,7 @@ ONLY peer-reviewed sources. Include Trust Cards.</div>
           <h3 class="prompt-title">Counter-Evidence Search</h3>
         </div>
         <div class="prompt-purpose">Για να ελέγξεις τη δύναμη μιας ένδειξης — δείχνει αν υπάρχουν studies που αντικρούουν την υπόθεσή σου.</div>
-        <div class="prompt-box">Find peer-reviewed studies that question or contradict the claim: "[your hypothesis or popular claim in your field]"
+        <div class="prompt-box"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button>Find peer-reviewed studies that question or contradict the claim: "[your hypothesis or popular claim in your field]"
 
 Show:
 - 5 studies with conflicting findings (with DOIs)
@@ -504,6 +506,39 @@ Do NOT take a position on which side is correct. Show me the disagreement clearl
     </div>
   </div>
 </footer>
+
+<script>
+function copyPrompt(btn) {
+  const box = btn.parentElement;
+  const clone = box.cloneNode(true);
+  const btnClone = clone.querySelector('.copy-btn');
+  if (btnClone) btnClone.remove();
+  const text = clone.textContent.trim();
+
+  navigator.clipboard.writeText(text).then(function() {
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(function() {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
 
 </body>
 </html>
