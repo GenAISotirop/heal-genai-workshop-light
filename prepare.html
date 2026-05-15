@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Προετοιμασία · Από το Prompt στη Δήλωση</title>
+  <meta name="description" content="Τι χρειάζεσαι πριν έρθεις στο τρίωρο εργαστήριο GenAI — checklist 15 λεπτών.">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* Page-specific extras */
+    .step {
+      background: var(--paper-card);
+      border: 3px solid var(--ink);
+      border-radius: var(--r-lg);
+      padding: var(--space-5);
+      margin-bottom: var(--space-5);
+      position: relative;
+    }
+    .step:nth-of-type(1) { box-shadow: 6px 6px 0 var(--coral); }
+    .step:nth-of-type(2) { box-shadow: 6px 6px 0 var(--teal); }
+    .step:nth-of-type(3) { box-shadow: 6px 6px 0 var(--sage); }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 2px dashed var(--rule);
+    }
+    .step-num {
+      width: 3rem; height: 3rem;
+      border-radius: var(--r-full);
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: white;
+      border: 3px solid var(--ink);
+      flex-shrink: 0;
+    }
+    .step:nth-of-type(1) .step-num { background: var(--coral); }
+    .step:nth-of-type(2) .step-num { background: var(--teal); }
+    .step:nth-of-type(3) .step-num { background: var(--sage); }
+
+    .step-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .step-time {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      line-height: 1.1;
+    }
+
+    .checklist {
+      list-style: none;
+      margin: var(--space-3) 0;
+    }
+    .checklist li {
+      display: flex;
+      gap: var(--space-3);
+      padding: var(--space-3);
+      background: var(--paper-warm);
+      border-radius: var(--r-md);
+      margin-bottom: var(--space-2);
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .checklist li:hover {
+      border-color: var(--rule);
+      transform: translateX(3px);
+    }
+    .checklist .check {
+      flex-shrink: 0;
+      width: 1.5rem; height: 1.5rem;
+      border-radius: var(--r-sm);
+      border: 2px solid var(--ink);
+      background: white;
+      margin-top: 2px;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+      margin: var(--space-4) 0;
+    }
+    @media (min-width: 700px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .tool {
+      background: var(--paper-card);
+      border: 2px solid var(--rule);
+      border-radius: var(--r-md);
+      padding: var(--space-4);
+      transition: all 0.2s;
+    }
+    .tool:hover {
+      border-color: var(--coral);
+      transform: translateY(-2px);
+    }
+    .tool-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+    .tool-icon {
+      width: 2rem; height: 2rem;
+      border-radius: var(--r-sm);
+      display: grid; place-items: center;
+      background: var(--coral-bg);
+      color: var(--coral);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .tool-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+    }
+    .tool ol {
+      padding-left: var(--space-4);
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+    }
+    .tool ol li {
+      margin-bottom: var(--space-1);
+    }
+
+    .callout {
+      background: var(--sun-bg);
+      border: 2px solid var(--sun);
+      border-radius: var(--r-md);
+      padding: var(--space-4);
+      margin: var(--space-4) 0;
+      display: flex;
+      gap: var(--space-3);
+    }
+    .callout-icon {
+      flex-shrink: 0;
+      width: 2rem; height: 2rem;
+      border-radius: var(--r-full);
+      background: var(--sun);
+      color: var(--ink);
+      display: grid; place-items: center;
+      font-weight: 700;
+      border: 2px solid var(--ink);
+    }
+    .callout-text {
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+    .callout-text strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .final-card {
+      background: var(--coral);
+      color: white;
+      border: 3px solid var(--ink);
+      border-radius: var(--r-lg);
+      padding: var(--space-6);
+      text-align: center;
+      box-shadow: 8px 8px 0 var(--ink);
+      max-width: 36rem;
+      margin: var(--space-6) auto 0;
+    }
+    .final-card h3 {
+      font-family: var(--font-display);
+      color: white;
+      font-size: 2rem;
+      margin-bottom: var(--space-3);
+    }
+    .final-card .hand {
+      color: var(--sun);
+    }
+    .final-card p {
+      font-size: 1.1rem;
+      margin-bottom: var(--space-4);
+    }
+    .final-card .btn {
+      background: var(--paper-card);
+      color: var(--ink);
+      box-shadow: 4px 4px 0 var(--sun);
+    }
+    .final-card .btn:hover {
+      background: var(--sun);
+      box-shadow: 6px 6px 0 var(--paper-card);
+    }
+
+    .faq-item {
+      border-bottom: 1px dashed var(--rule);
+      padding: var(--space-4) 0;
+    }
+    .faq-item h4 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: var(--space-2);
+      color: var(--coral);
+    }
+    .faq-item p {
+      color: var(--ink-soft);
+      line-height: 1.55;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <span class="spark">Από</span> το Prompt στη Δήλωση
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Καλωσόρισμα</a></li>
+      <li><a href="prepare.html" class="active">Προετοιμασία</a></li>
+      <li><a href="agenda.html">Πρόγραμμα</a></li>
+      <li><a href="instructor.html">Για Διδάσκοντες</a></li>
+      <li><a href="materials.html">Υλικό</a></li>
+      <li><a href="about.html">Σχετικά</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="eyebrow fade-up">✷ Πριν το εργαστήριο · ~15 λεπτά προετοιμασίας</div>
+        <h1 class="hero-title fade-up">
+          Έλα <span class="accent">έτοιμος</span><br>
+          να <span class="hand">ξεκινήσουμε</span>
+        </h1>
+        <p class="hero-subtitle fade-up">
+          Τρία απλά βήματα για να αξιοποιήσεις στο μέγιστο τις τρεις ώρες μαζί μας. Δεν χρειάζεσαι τεχνικές γνώσεις — μόνο 15 λεπτά πριν την ημέρα του εργαστηρίου.
+        </p>
+        <div class="cta-group fade-up">
+          <a href="#step-1" class="btn">
+            Βήμα 1 <span class="arrow">↓</span>
+          </a>
+          <a href="agenda.html" class="btn btn-outline">
+            Δες το πρόγραμμα
+          </a>
+        </div>
+      </div>
+      <div class="hero-illo">
+        <div class="hero-shape shape-2" style="background: var(--teal); top: 10%; right: 20%;"></div>
+        <div class="hero-shape shape-3" style="background: var(--sun); bottom: 15%; left: 15%; top: auto;"></div>
+        <div class="hero-shape shape-4" style="background: var(--coral); top: 40%; left: 5%;"></div>
+        <div class="hero-label">
+          15min<br>
+          <span>and you're set ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="section-eyebrow">✷ Τι θα κάνεις</div>
+    <h2 class="section-title">Τρία βήματα <span class="accent">προετοιμασίας</span></h2>
+    <p class="section-lead">
+      Αυτή η προετοιμασία ΔΕΝ είναι περιττή γραφειοκρατία. Είναι τα ελάχιστα που χρειάζονται ώστε να μπεις στην τάξη και να δουλεύεις από το πρώτο λεπτό — χωρίς να χάνεις χρόνο σε τεχνικά προβλήματα.
+    </p>
+
+    <div style="margin-top: var(--space-6);">
+      <div class="step" id="step-1">
+        <div class="step-header">
+          <div class="step-num">i</div>
+          <div class="step-meta">
+            <span class="step-time">~10 ΛΕΠΤΑ</span>
+            <h3 class="step-title">Φτιάξε τους λογαριασμούς</h3>
+          </div>
+        </div>
+
+        <p>Χρειάζεσαι 3 δωρεάν λογαριασμούς. Όλοι έχουν εκδόσεις για ακαδημαϊκή χρήση χωρίς κόστος.</p>
+
+        <div class="tool-grid">
+          <div class="tool">
+            <div class="tool-header">
+              <div class="tool-icon">C</div>
+              <div class="tool-name">Claude</div>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: var(--space-2);">Το LLM που θα χρησιμοποιήσουμε για prompting.</p>
+            <ol>
+              <li>Πάνε <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a></li>
+              <li>Sign up με ακαδημαϊκό email</li>
+              <li>Επιβεβαίωσε email</li>
+            </ol>
+          </div>
+
+          <div class="tool">
+            <div class="tool-header">
+              <div class="tool-icon" style="background: var(--teal-bg); color: var(--teal);">Cs</div>
+              <div class="tool-name">Consensus</div>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: var(--space-2);">Για peer-reviewed paper search μέσω ΤΝ.</p>
+            <ol>
+              <li>Πάνε <a href="https://consensus.app" target="_blank" rel="noopener">consensus.app</a></li>
+              <li>Sign up με ίδιο email</li>
+              <li>Στο Claude → Settings → Connectors → Connect Consensus</li>
+            </ol>
+          </div>
+
+          <div class="tool">
+            <div class="tool-header">
+              <div class="tool-icon" style="background: var(--sage-bg); color: var(--sage);">R</div>
+              <div class="tool-name">Rayyan</div>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: var(--space-2);">Για συστηματικό screening βιβλιογραφίας.</p>
+            <ol>
+              <li>Πάνε <a href="https://rayyan.ai" target="_blank" rel="noopener">rayyan.ai</a></li>
+              <li>Sign up — δωρεάν</li>
+              <li>Επιβεβαίωσε email</li>
+            </ol>
+          </div>
+
+          <div class="tool">
+            <div class="tool-header">
+              <div class="tool-icon" style="background: var(--sun-bg); color: var(--ink);">H</div>
+              <div class="tool-name">HEAL-Link</div>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: var(--space-2);">Πρόσβαση σε ακαδημαϊκές βάσεις δεδομένων.</p>
+            <ol>
+              <li>Συνδέσου μέσω VPN/login πανεπιστημίου</li>
+              <li>Επιβεβαίωσε πρόσβαση σε ERIC</li>
+              <li>Σώσε ένα bookmark</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="callout">
+          <div class="callout-icon">!</div>
+          <div class="callout-text">
+            <strong>Έλεγξε τη σύνδεση Claude ↔ Consensus</strong>
+            Στο Claude γράψε: <code>"Ψάξε στο Consensus για mindfulness"</code> — αν επιστρέψει αποτελέσματα, είσαι έτοιμος/η. Αν όχι, σημείωσέ το και θα το λύσουμε στο μάθημα.
+          </div>
+        </div>
+      </div>
+
+      <div class="step" id="step-2">
+        <div class="step-header">
+          <div class="step-num">ii</div>
+          <div class="step-meta">
+            <span class="step-time">~3 ΛΕΠΤΑ</span>
+            <h3 class="step-title">Υπέγραψε το AI Usage Agreement</h3>
+          </div>
+        </div>
+
+        <p>Αυτό είναι 1 σελίδα που θα σου στείλει ο/η διδάσκων/ουσα μαζί με την πρόσκληση. Δηλώνει ότι κατανοείς τις 3 θεμελιώδεις αρχές HEAL-Link.</p>
+
+        <ul class="checklist">
+          <li>
+            <span class="check"></span>
+            <div>
+              <strong>Διάβασε το προσεκτικά</strong> — δεν είναι τυπική φόρμα. Είναι ψυχολογική δέσμευση.
+            </div>
+          </li>
+          <li>
+            <span class="check"></span>
+            <div>
+              <strong>Συμπλήρωσε</strong> ονοματεπώνυμο, ΑΕΜ, ημερομηνία.
+            </div>
+          </li>
+          <li>
+            <span class="check"></span>
+            <div>
+              <strong>Υπέγραψε</strong> με μπλε στυλό. Αν έχεις ψηφιακή υπογραφή, ακόμα καλύτερα.
+            </div>
+          </li>
+          <li>
+            <span class="check"></span>
+            <div>
+              <strong>Φέρτο μαζί σου</strong> στο μάθημα — εκτυπωμένο.
+            </div>
+          </li>
+        </ul>
+
+        <div class="callout" style="background: var(--coral-bg); border-color: var(--coral);">
+          <div class="callout-icon" style="background: var(--coral); color: white;">?</div>
+          <div class="callout-text">
+            <strong>Νιώθεις περιοριστικό;</strong>
+            Αυτό είναι ΟΚ συναίσθημα. Στο μάθημα θα δούμε ότι οι κανόνες δεν περιορίζουν — δίνουν πλαίσιο μέσα στο οποίο η ΤΝ γίνεται πραγματικά χρήσιμη.
+          </div>
+        </div>
+      </div>
+
+      <div class="step" id="step-3">
+        <div class="step-header">
+          <div class="step-num">iii</div>
+          <div class="step-meta">
+            <span class="step-time">~2 ΛΕΠΤΑ</span>
+            <h3 class="step-title">Σκέψου ένα ερευνητικό ενδιαφέρον</h3>
+          </div>
+        </div>
+
+        <p>Δεν χρειάζεται να είναι το θέμα της διπλωματικής σου. Αρκεί <strong>ένα γενικό ενδιαφέρον σε μία πρόταση</strong> — θα το χρησιμοποιήσεις στις ασκήσεις prompt + στο research mini-tour.</p>
+
+        <div class="callout">
+          <div class="callout-icon">✎</div>
+          <div class="callout-text">
+            <strong>Παράδειγμα:</strong>
+            «Με ενδιαφέρει η χρήση tablets σε παιδιά με ΔΑΦ σε γενικές τάξεις»<br>
+            ή «Θέλω να καταλάβω πώς οι εκπαιδευτικοί υιοθετούν εργαλεία ΑΑC»<br>
+            ή «Με απασχολούν οι πρακτικές inclusion στα νηπιαγωγεία»
+          </div>
+        </div>
+
+        <p style="margin-top: var(--space-3);">Δεν χρειάζεται να είναι «τέλειο» — απλά κάτι που σε ενδιαφέρει αρκετά για να δουλέψεις πάνω του για 3 ώρες.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="glance">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-eyebrow" style="display: inline-block;">✷ Τελικό checklist</div>
+      <h2 class="section-title" style="margin: 0 auto var(--space-5);">
+        Είσαι <span class="hand">έτοιμος</span>;
+      </h2>
+    </div>
+
+    <div style="max-width: 36rem; margin: 0 auto;">
+      <ul class="checklist">
+        <li>
+          <span class="check"></span>
+          <div>
+            <strong>Laptop φορτισμένο</strong> + φορτιστής μαζί
+          </div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div>
+            <strong>3 λογαριασμοί ενεργοί:</strong> Claude · Consensus · Rayyan
+          </div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div>
+            <strong>Σύνδεση Claude ↔ Consensus</strong> δοκιμασμένη
+          </div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div>
+            <strong>HEAL-Link πρόσβαση</strong> επιβεβαιωμένη
+          </div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div>
+            <strong>AI Usage Agreement</strong> εκτυπωμένο και υπογεγραμμένο
+          </div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div>
+            <strong>Ερευνητικό ενδιαφέρον</strong> σε μία πρόταση στο μυαλό σου
+          </div>
+        </li>
+        <li>
+          <span class="check"></span>
+          <div>
+            <strong>Στυλό</strong> και διάθεση για συζήτηση
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="final-card">
+      <h3>Τα <span class="hand">τα λέμε</span> στο εργαστήριο!</h3>
+      <p>Αν έχεις απορία με την προετοιμασία, στείλε email στον/στη διδάσκοντα/ουσα πριν την ημέρα.</p>
+      <a href="agenda.html" class="btn">
+        Δες τι θα κάνουμε <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-eyebrow">✷ Συχνές ερωτήσεις</div>
+    <h2 class="section-title">Πριν <span class="accent">ρωτήσεις</span>...</h2>
+
+    <div style="max-width: 42rem;">
+      <div class="faq-item">
+        <h4>Δεν τα κατάφερα να συνδέσω το Consensus με το Claude. Είναι πρόβλημα;</h4>
+        <p>Όχι. Σημείωσέ το και θα το λύσουμε στα πρώτα 10 λεπτά. Αν χρειαστεί, θα δείξουμε εναλλακτικό τρόπο (Consensus αυτόνομα).</p>
+      </div>
+
+      <div class="faq-item">
+        <h4>Δεν έχω ακαδημαϊκό email — μπορώ να φτιάξω λογαριασμούς με προσωπικό;</h4>
+        <p>Ναι, όλα τα εργαλεία δουλεύουν και με προσωπικό. Όμως για το HEAL-Link χρειάζεσαι ιδρυματικό login για να αποκτήσεις πρόσβαση σε βάσεις όπως ERIC και PsycINFO.</p>
+      </div>
+
+      <div class="faq-item">
+        <h4>Έχω χρησιμοποιήσει ΧατGPT στο παρελθόν. Είναι το ίδιο πράγμα;</h4>
+        <p>Παρόμοιο, όχι όμως ταυτόσημο. Το Claude είναι από διαφορετική εταιρεία (Anthropic) και έχει διαφορετική συμπεριφορά. Στο εργαστήριο θα δεις γιατί χρησιμοποιούμε Claude — έχει καλή ενσωμάτωση με Consensus.</p>
+      </div>
+
+      <div class="faq-item">
+        <h4>Είναι όλα τα εργαλεία δωρεάν;</h4>
+        <p>Ναι, τα Claude (free tier), Consensus (academic free), και Rayyan (free) έχουν δωρεάν εκδόσεις επαρκείς για το εργαστήριο και για τη διπλωματική σου. Δεν χρειάζεσαι premium.</p>
+      </div>
+
+      <div class="faq-item">
+        <h4>Αν δεν προετοιμαστώ, μπορώ να συμμετέχω;</h4>
+        <p>Μπορείς, αλλά θα χάσεις χρόνο στα πρώτα 30 λεπτά κάνοντας tech setup ενώ οι άλλοι θα μαθαίνουν. Σου συνιστούμε ένθερμα να αφιερώσεις τα 15 λεπτά την προηγούμενη ημέρα.</p>
+      </div>
+
+      <div class="faq-item">
+        <h4>Έχω άγχος με την τεχνητή νοημοσύνη γενικά. Είναι ΟΚ;</h4>
+        <p>Απολύτως. Το εργαστήριο είναι σχεδιασμένο για ανθρώπους με ΟΛΕΣ τις στάσεις — ενθουσιώδεις, σκεπτικιστές, καχύποπτους. Θα συζητήσουμε ανοιχτά και τις θετικές και τις αρνητικές πλευρές.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="hand">Από</span> το Prompt στη Δήλωση
+        </div>
+        <p class="footer-text">
+          Εργαστήριο εισαγωγής στην υπεύθυνη χρήση εργαλείων GenAI για μεταπτυχιακούς φοιτητές. Σύμφωνα με τις κατευθυντήριες του Συνδέσμου Ελληνικών Ακαδημαϊκών Βιβλιοθηκών (HEAL-Link / ΣΕΑΒ).
+        </p>
+      </div>
+      <div>
+        <h5>Σελίδες</h5>
+        <ul>
+          <li><a href="prepare.html">Προετοιμασία</a></li>
+          <li><a href="agenda.html">Πρόγραμμα</a></li>
+          <li><a href="instructor.html">Για Διδάσκοντες</a></li>
+          <li><a href="materials.html">Υλικό</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Εργαλεία</h5>
+        <ul>
+          <li><a href="https://www.heal-link.gr/" target="_blank" rel="noopener">HEAL-Link.gr</a></li>
+          <li><a href="https://consensus.app" target="_blank" rel="noopener">Consensus</a></li>
+          <li><a href="https://rayyan.ai" target="_blank" rel="noopener">Rayyan</a></li>
+          <li><a href="https://claude.ai" target="_blank" rel="noopener">Claude</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 · Ανοιχτό εκπαιδευτικό υλικό · CC BY-NC-SA</div>
+      <div>Light Edition · v1.0</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
