@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Υλικό Διδάσκοντος · Από το Prompt στη Δήλωση</title>
+  <meta name="description" content="Προστατευμένο υλικό διδασκαλίας για το τρίωρο εργαστήριο GenAI — Lesson Plan, Scenarios Cards, Sample Abstracts.">
+  <link rel="stylesheet" href="assets/style.css">
+  <style>
+    /* Same styles as materials.html for consistency */
+    .filter-tabs {
+      display: flex;
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-tab {
+      padding: 0.5rem 1.2rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: var(--paper-card);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      border-radius: var(--r-full);
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    .filter-tab.active {
+      background: var(--coral);
+      color: white;
+    }
+    .filter-tab:hover:not(.active) {
+      background: var(--sun);
+    }
+
+    .materials-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+    @media (min-width: 700px) {
+      .materials-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1100px) {
+      .materials-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .material-card {
+      background: var(--paper-card);
+      border: 3px solid var(--ink);
+      border-radius: var(--r-lg);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .material-card:hover {
+      transform: translate(-3px, -3px);
+    }
+
+    .material-card[data-color="coral"] { box-shadow: 5px 5px 0 var(--coral); }
+    .material-card[data-color="coral"]:hover { box-shadow: 8px 8px 0 var(--coral); }
+    .material-card[data-color="teal"] { box-shadow: 5px 5px 0 var(--teal); }
+    .material-card[data-color="teal"]:hover { box-shadow: 8px 8px 0 var(--teal); }
+    .material-card[data-color="sun"] { box-shadow: 5px 5px 0 var(--sun); }
+    .material-card[data-color="sun"]:hover { box-shadow: 8px 8px 0 var(--sun); }
+    .material-card[data-color="sage"] { box-shadow: 5px 5px 0 var(--sage); }
+    .material-card[data-color="sage"]:hover { box-shadow: 8px 8px 0 var(--sage); }
+
+    .material-icon {
+      width: 3rem; height: 3rem;
+      border-radius: var(--r-md);
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: white;
+      margin-bottom: var(--space-3);
+      border: 2px solid var(--ink);
+    }
+    .material-card[data-color="coral"] .material-icon { background: var(--coral); }
+    .material-card[data-color="teal"] .material-icon { background: var(--teal); }
+    .material-card[data-color="sun"] .material-icon { background: var(--sun); color: var(--ink); }
+    .material-card[data-color="sage"] .material-icon { background: var(--sage); }
+
+    .material-tags {
+      display: flex;
+      gap: var(--space-1);
+      flex-wrap: wrap;
+      margin-bottom: var(--space-2);
+    }
+    .material-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--r-full);
+      background: var(--paper-warm);
+      color: var(--ink-soft);
+    }
+    .material-tag-student { background: var(--teal-bg); color: var(--teal); }
+    .material-tag-instructor { background: var(--coral-bg); color: var(--coral); }
+    .material-tag-doc { background: var(--sun-bg); color: var(--ink); }
+
+    .material-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: var(--space-2);
+      line-height: 1.2;
+    }
+    .material-desc {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.55;
+      margin-bottom: var(--space-3);
+      flex: 1;
+    }
+    .material-meta {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: var(--space-3);
+      padding-top: var(--space-2);
+      border-top: 1px dashed var(--rule);
+    }
+    .material-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: 0.6rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: var(--ink);
+      color: white;
+      border: 2px solid var(--ink);
+      border-radius: var(--r-full);
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      text-align: center;
+      background-image: none;
+    }
+    .material-btn:hover {
+      background: var(--coral);
+      color: white;
+    }
+
+    .category-header {
+      grid-column: 1 / -1;
+      margin: var(--space-5) 0 var(--space-3);
+    }
+    .category-header h3 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      margin-bottom: var(--space-2);
+    }
+    .category-header p {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- 🔒 PASSWORD GATE — ΑΛΛΑΞΕ ΤΟΝ ΚΩΔΙΚΟ ΣΤΗΝ ΓΡΑΜΜΗ 197      -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="password-gate">
+  <div class="gate-card">
+    <div class="gate-icon">🔒</div>
+    <h1 class="gate-title">
+      Υλικό για <span class="hand">τον/την Καθηγητή/τρια</span>
+    </h1>
+    <p class="gate-msg">
+      Αν <em>βρέθηκες εδώ κατά λάθος</em>, κάνε πίσω στον browser.
+    </p>
+    <p class="gate-msg">
+      Αλλιώς, <strong>βάλε τον κωδικό</strong> για να συνεχίσεις:
+    </p>
+    <div class="gate-form">
+      <input type="password" id="gate-password" class="gate-input" placeholder="• • • • • • •" autocomplete="off">
+      <button onclick="checkPassword()" class="gate-btn">
+        Είσοδος <span class="arrow">→</span>
+      </button>
+      <p id="gate-error" class="gate-error">
+        Λάθος κωδικός. Δοκίμασε ξανά ή επικοινώνησε με τον διοργανωτή.
+      </p>
+    </div>
+    <a href="index.html" class="gate-back">← Επιστροφή στην αρχική</a>
+  </div>
+</div>
+
+<script>
+  // ════════════════════════════════════════════════════════
+  // 🔑 ΑΛΛΑΞΕ ΤΟΝ ΚΩΔΙΚΟ ΕΔΩ — ΤΟΝ ΙΔΙΟ ΟΠΩΣ ΣΤΟ instructor.html:
+  const INSTRUCTOR_PASSWORD = "diadaskontes2026";
+  // ════════════════════════════════════════════════════════
+
+  // Use same session key as instructor.html for shared unlock
+  if (sessionStorage.getItem('instructor_unlocked') === 'yes') {
+    document.getElementById('password-gate').style.display = 'none';
+  } else {
+    document.body.classList.add('gate-locked');
+  }
+
+  function checkPassword() {
+    const input = document.getElementById('gate-password').value;
+    const error = document.getElementById('gate-error');
+    if (input === INSTRUCTOR_PASSWORD) {
+      document.getElementById('password-gate').style.display = 'none';
+      document.body.classList.remove('gate-locked');
+      sessionStorage.setItem('instructor_unlocked', 'yes');
+    } else {
+      error.classList.add('show');
+      document.getElementById('gate-password').value = '';
+      setTimeout(() => error.classList.remove('show'), 3000);
+    }
+  }
+
+  document.getElementById('gate-password').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      checkPassword();
+    }
+  });
+
+  document.getElementById('gate-password').focus();
+</script>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-brand">
+      <span class="spark">Από</span> το Prompt στη Δήλωση
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Καλωσόρισμα</a></li>
+      <li><a href="prepare.html">Προετοιμασία</a></li>
+      <li><a href="agenda.html">Πρόγραμμα</a></li>
+      <li><a href="instructor.html">Για Διδάσκοντες</a></li>
+      <li><a href="materials.html" class="active">Υλικό</a></li>
+      <li><a href="about.html">Σχετικά</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="eyebrow fade-up">🔒 Υλικό Διδάσκοντος · Protected</div>
+        <h1 class="hero-title fade-up">
+          Υλικό<br>
+          <span class="hand">διδασκαλίας</span>
+        </h1>
+        <p class="hero-subtitle fade-up">
+          5 αρχεία για την προετοιμασία και διεξαγωγή του εργαστηρίου: Lesson Plan, Scenarios Cards, Sample Abstracts, και τα κοινά Agreement + Statement που θα διανείμεις.
+        </p>
+        <div class="cta-group fade-up">
+          <a href="#all-materials" class="btn">
+            Δες όλο το υλικό <span class="arrow">↓</span>
+          </a>
+          <a href="instructor.html" class="btn btn-outline">
+            Πίσω στο Lesson Plan
+          </a>
+        </div>
+      </div>
+      <div class="hero-illo">
+        <div class="hero-shape shape-1" style="background: var(--sun); top: 0; right: 0;"></div>
+        <div class="hero-shape shape-2" style="background: var(--coral); bottom: 0; left: 0;"></div>
+        <div class="hero-shape shape-3" style="background: var(--sage); top: 5%; left: 5%;"></div>
+        <div class="hero-label">
+          5 files<br>
+          <span>for you only ✦</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="all-materials">
+  <div class="container">
+    <div class="text-center">
+      <div class="section-eyebrow" style="display: inline-block;">✷ Όλα τα materials</div>
+      <h2 class="section-title" style="margin: 0 auto var(--space-5);">
+        Έτοιμα για <span class="hand">διδασκαλία</span>
+      </h2>
+    </div>
+
+    <div class="materials-grid">
+
+      <div class="category-header">
+        <h3>📘 Για διανομή στους φοιτητές</h3>
+        <p>Αυτά θα τα μοιράσεις στους φοιτητές πριν ή κατά το εργαστήριο.</p>
+      </div>
+
+      <article class="material-card" data-color="coral">
+        <div class="material-icon">A</div>
+        <div class="material-tags">
+          <span class="material-tag material-tag-student">Διανομή</span>
+          <span class="material-tag material-tag-doc">.docx</span>
+        </div>
+        <h4 class="material-title">AI Usage Agreement</h4>
+        <p class="material-desc">1-σέλιδο που υπογράφεται από τον/την φοιτητή/τρια πριν το εργαστήριο. Εκτυπώνεις × N φοιτητές.</p>
+        <div class="material-meta">3 σελίδες · Pre-workshop</div>
+        <a href="downloads/03_AI_Usage_Agreement.docx" class="material-btn" download>
+          ⬇ Download .docx
+        </a>
+      </article>
+
+      <article class="material-card" data-color="coral">
+        <div class="material-icon">H</div>
+        <div class="material-tags">
+          <span class="material-tag material-tag-student">Διανομή</span>
+          <span class="material-tag material-tag-doc">.docx</span>
+        </div>
+        <h4 class="material-title">HEAL-Link Statement Template</h4>
+        <p class="material-desc">Επίσημο fillable template HEAL-Link. Εκτυπώνεις × N — συμπληρώνεται στο εργαστήριο.</p>
+        <div class="material-meta">5 σελίδες · Παραδοτέο εργαστηρίου</div>
+        <a href="downloads/04_HEAL_Link_Statement_Template.docx" class="material-btn" download>
+          ⬇ Download .docx
+        </a>
+      </article>
+
+      <div class="category-header">
+        <h3>🎓 Για τη διδασκαλία</h3>
+        <p>Lesson plan, ασκήσεις, και υλικό αναφοράς για τη διεξαγωγή του εργαστηρίου.</p>
+      </div>
+
+      <article class="material-card" data-color="sun">
+        <div class="material-icon">L</div>
+        <div class="material-tags">
+          <span class="material-tag material-tag-instructor">Διδάσκοντες</span>
+          <span class="material-tag material-tag-doc">.docx</span>
+        </div>
+        <h4 class="material-title">Lesson Plan</h4>
+        <p class="material-desc">Πλήρης οδηγός διδασκαλίας 3 ωρών — με αναλυτικούς χρόνους, διδακτικές οδηγίες, watch-fors, και HEAL-Link compliance callouts.</p>
+        <div class="material-meta">14 σελίδες · Master document</div>
+        <a href="downloads/LIGHT_01_Lesson_Plan.docx" class="material-btn" download>
+          ⬇ Download .docx
+        </a>
+      </article>
+
+      <article class="material-card" data-color="sun">
+        <div class="material-icon">C</div>
+        <div class="material-tags">
+          <span class="material-tag material-tag-instructor">Διδάσκοντες</span>
+          <span class="material-tag material-tag-doc">.docx</span>
+        </div>
+        <h4 class="material-title">Scenarios Cards</h4>
+        <p class="material-desc">5 σενάρια «Πού τραβάμε τη γραμμή;» — printable κάρτες για την Άσκηση 1 (Ενότητα 1) + Answer Key με δικαιολογήσεις.</p>
+        <div class="material-meta">10 σελίδες · Άσκηση 1</div>
+        <a href="downloads/LIGHT_03_Scenarios_Cards.docx" class="material-btn" download>
+          ⬇ Download .docx
+        </a>
+      </article>
+
+      <article class="material-card" data-color="sun">
+        <div class="material-icon">B</div>
+        <div class="material-tags">
+          <span class="material-tag material-tag-instructor">Διδάσκοντες</span>
+          <span class="material-tag material-tag-doc">.docx</span>
+        </div>
+        <h4 class="material-title">Sample Abstracts</h4>
+        <p class="material-desc">3 sample abstracts (INCLUDE / EXCLUDE / MAYBE) για τις δραστηριότητες PICO + Critical Reading. Με αναλυτική ανάλυση και answer key.</p>
+        <div class="material-meta">8 σελίδες · Research Mini-Tour</div>
+        <a href="downloads/LIGHT_04_Sample_Abstracts.docx" class="material-btn" download>
+          ⬇ Download .docx
+        </a>
+      </article>
+
+    </div>
+
+    <div style="max-width: 36rem; margin: var(--space-6) auto 0; padding: var(--space-4); background: var(--teal-bg); border: 2px dashed var(--teal); border-radius: var(--r-md); text-align: center;">
+      <p style="margin-bottom: var(--space-3); color: var(--ink-soft); font-size: 0.95rem;">
+        <strong>Χρειάζεσαι και τα materials των φοιτητών;</strong><br>
+        Student Handout, Prompt Templates, Methodological Paragraph Examples, Reflection Template.
+      </p>
+      <a href="materials.html" class="btn btn-outline" style="font-size: 0.9rem;">
+        Στα student materials <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="glance">
+  <div class="container">
+    <div class="text-center" style="max-width: 36rem; margin: 0 auto;">
+      <div class="section-eyebrow" style="display: inline-block;">✷ Reminder</div>
+      <h2 class="section-title" style="margin: 0 auto var(--space-4);">
+        Πριν την <span class="hand">ημέρα</span> X
+      </h2>
+      <p style="font-size: 1.05rem; color: var(--ink-soft); line-height: 1.6; margin-bottom: var(--space-4);">
+        Στείλε το <strong>pre-workshop email</strong> στους φοιτητές 5-7 ημέρες πριν το εργαστήριο, μαζί με το <strong>AI Usage Agreement</strong> προς υπογραφή. Το template βρίσκεται στα Reflection materials.
+      </p>
+      <a href="instructor.html" class="btn">
+        Δες το Lesson Plan <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="hand">Από</span> το Prompt στη Δήλωση
+        </div>
+        <p class="footer-text">
+          Εργαστήριο εισαγωγής στην υπεύθυνη χρήση εργαλείων GenAI για μεταπτυχιακούς φοιτητές. Σύμφωνα με τις κατευθυντήριες του Συνδέσμου Ελληνικών Ακαδημαϊκών Βιβλιοθηκών (HEAL-Link / ΣΕΑΒ).
+        </p>
+      </div>
+      <div>
+        <h5>Σελίδες</h5>
+        <ul>
+          <li><a href="prepare.html">Προετοιμασία</a></li>
+          <li><a href="agenda.html">Πρόγραμμα</a></li>
+          <li><a href="instructor.html">Για Διδάσκοντες 🔒</a></li>
+          <li><a href="materials.html">Υλικό Φοιτητών</a></li>
+          <li><a href="materials-instructors.html">Υλικό Διδάσκοντος 🔒</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Εργαλεία</h5>
+        <ul>
+          <li><a href="https://www.heal-link.gr/" target="_blank" rel="noopener">HEAL-Link.gr</a></li>
+          <li><a href="https://consensus.app" target="_blank" rel="noopener">Consensus</a></li>
+          <li><a href="https://rayyan.ai" target="_blank" rel="noopener">Rayyan</a></li>
+          <li><a href="https://claude.ai" target="_blank" rel="noopener">Claude</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 · Ανοιχτό εκπαιδευτικό υλικό · CC BY-NC-SA</div>
+      <div>Light Edition · v1.0</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
