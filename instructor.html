@@ -214,6 +214,73 @@
 </head>
 <body>
 
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- 🔒 PASSWORD GATE — ΑΛΛΑΞΕ ΤΟΝ ΚΩΔΙΚΟ ΣΤΗ ΓΡΑΜΜΗ 22       -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="password-gate">
+  <div class="gate-card">
+    <div class="gate-icon">🔒</div>
+    <h1 class="gate-title">
+      Υλικό για <span class="hand">τον/την Καθηγητή/τρια</span>
+    </h1>
+    <p class="gate-msg">
+      Αν <em>βρέθηκες εδώ κατά λάθος</em>, κάνε πίσω στον browser.
+    </p>
+    <p class="gate-msg">
+      Αλλιώς, <strong>βάλε τον κωδικό</strong> για να συνεχίσεις:
+    </p>
+    <div class="gate-form">
+      <input type="password" id="gate-password" class="gate-input" placeholder="• • • • • • •" autocomplete="off">
+      <button onclick="checkPassword()" class="gate-btn">
+        Είσοδος <span class="arrow">→</span>
+      </button>
+      <p id="gate-error" class="gate-error">
+        Λάθος κωδικός. Δοκίμασε ξανά ή επικοινώνησε με τον διοργανωτή.
+      </p>
+    </div>
+    <a href="index.html" class="gate-back">← Επιστροφή στην αρχική</a>
+  </div>
+</div>
+
+<script>
+  // ════════════════════════════════════════════════════════
+  // 🔑 ΑΛΛΑΞΕ ΤΟΝ ΚΩΔΙΚΟ ΕΔΩ ΠΡΙΝ ΑΝΕΒΑΣΕΙΣ ΣΤΟ GITHUB:
+  const INSTRUCTOR_PASSWORD = "diadaskontes2026";
+  // ════════════════════════════════════════════════════════
+
+  // Lock body scroll if not yet unlocked
+  if (sessionStorage.getItem('instructor_unlocked') === 'yes') {
+    document.getElementById('password-gate').style.display = 'none';
+  } else {
+    document.body.classList.add('gate-locked');
+  }
+
+  function checkPassword() {
+    const input = document.getElementById('gate-password').value;
+    const error = document.getElementById('gate-error');
+    if (input === INSTRUCTOR_PASSWORD) {
+      document.getElementById('password-gate').style.display = 'none';
+      document.body.classList.remove('gate-locked');
+      sessionStorage.setItem('instructor_unlocked', 'yes');
+    } else {
+      error.classList.add('show');
+      document.getElementById('gate-password').value = '';
+      setTimeout(() => error.classList.remove('show'), 3000);
+    }
+  }
+
+  // Allow Enter key in password field
+  document.getElementById('gate-password').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      checkPassword();
+    }
+  });
+
+  // Auto-focus password field
+  document.getElementById('gate-password').focus();
+</script>
+
 <nav class="nav">
   <div class="nav-inner">
     <a href="index.html" class="nav-brand">
@@ -252,9 +319,9 @@
         </div>
       </div>
       <div class="hero-illo">
-        <div class="hero-shape shape-1" style="background: var(--coral);"></div>
-        <div class="hero-shape shape-2" style="background: var(--sage); bottom: 5%; left: 25%;"></div>
-        <div class="hero-shape shape-3" style="background: var(--sun); top: 20%; left: 10%;"></div>
+        <div class="hero-shape shape-1" style="background: var(--coral); top: 0; right: 0;"></div>
+        <div class="hero-shape shape-2" style="background: var(--sage); bottom: 0; left: 0;"></div>
+        <div class="hero-shape shape-3" style="background: var(--sun); top: 5%; left: 5%;"></div>
         <div class="hero-label">
           Teach<br>
           <span>with care ✦</span>
