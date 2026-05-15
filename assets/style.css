@@ -975,3 +975,33 @@ section { padding: var(--space-7) 0; }
 }
 
 body.gate-locked { overflow: hidden; }
+
+/* ─── COPY BUTTON (for prompt boxes) ────────────────────── */
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 0.35rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: var(--ink);
+  color: white;
+  border: 2px solid var(--ink);
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: all 0.25s;
+  z-index: 2;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  letter-spacing: 0.03em;
+}
+.copy-btn:hover {
+  background: var(--coral);
+  border-color: var(--coral);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.15);
+}
+.copy-btn.copied {
+  background: var(--sage);
+  border-color: var(--sage);
+}
